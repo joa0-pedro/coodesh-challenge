@@ -1,5 +1,6 @@
 import { Box, Center, Text } from "@chakra-ui/react";
 import { Email } from "../components/Email";
+import { MailBox } from "../components/Mailbox";
 
 export function Index() {
   return (
@@ -16,6 +17,7 @@ export function Index() {
       </Center>
       <Box border={"2px"} borderRadius={8} h={"54rem"} mx={"0.8rem"}>
         <Email />
+        <MailBox />
       </Box>
     </Box>
   );

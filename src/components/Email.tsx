@@ -2,6 +2,7 @@ import { Box, Button, Icon, Input, Text, useToast } from "@chakra-ui/react";
 import { ClipboardText } from "@phosphor-icons/react";
 import { CREATE_SESSION_ID, client } from "../graphql";
 import { useSession } from "../store/useSession";
+import { useCallback, useEffect, useState } from "react";
 
 export interface Data {
   introduceSession: IntroduceSession;
@@ -18,26 +19,47 @@ export interface Address {
 }
 
 export function Email() {
-  const { configure, email } = useSession();
+  const { sessionId, expiredAt, configure, email } = useSession();
+  const [expireTime, setExpireTime] = useState("");
   const toast = useToast();
 
-  async function handleNewEmail() {
+  const expireDate = useCallback(async () => {
+    if (!expiredAt) return;
+
+    const count = Math.round(
+      (new Date(expiredAt).getTime() - new Date().getTime()) / 60000
+    ).toString();
+
+    setExpireTime(count.slice(0, count.length));
+
+    if (count <= "0") {
+      handleNewEmail();
+    }
+  }, [expiredAt]);
+
+  const handleNewEmail = useCallback(async () => {
     const { data } = await client.mutate<Data>({
       mutation: CREATE_SESSION_ID,
     });
 
     if (!data) return;
 
-    if (data.introduceSession.expiresAt < Date.now().toString()) {
-      handleNewEmail();
-    }
-
     configure({
       sessionId: data.introduceSession.id,
       email: data.introduceSession.addresses[0].address,
       expiredAt: data.introduceSession.expiresAt,
     });
-  }
+
+    if (expireTime <= "0") {
+      localStorage.removeItem("sessionId");
+      localStorage.removeItem("email");
+      localStorage.removeItem("expiredAt");
+    }
+
+    localStorage.setItem("sessionId", data.introduceSession.id);
+    localStorage.setItem("email", data.introduceSession.addresses[0].address);
+    localStorage.setItem("expiredAt", data.introduceSession.expiresAt);
+  }, [configure]);
 
   function copyToClipboard() {
     navigator.clipboard.writeText(email);
@@ -51,6 +73,32 @@ export function Email() {
     });
   }
 
+  useEffect(() => {
+    const storedSessionId = localStorage.getItem("sessionId");
+    const storedEmail = localStorage.getItem("email");
+    const storedExpiredAt = localStorage.getItem("expiredAt");
+
+    if (!(storedSessionId && storedEmail && storedExpiredAt)) {
+      handleNewEmail();
+    } else {
+      configure({
+        sessionId: storedSessionId,
+        email: storedEmail,
+        expiredAt: storedExpiredAt,
+      });
+    }
+
+    expireDate();
+
+    const interval = setInterval(() => {
+      expireDate();
+    }, 60100);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [expireDate, configure, handleNewEmail]);
+
   return (
     <Box display={"flex"} justifyContent={"center"}>
       <Box
@@ -62,38 +110,60 @@ export function Email() {
         w={"fit-content"}
       >
         <Text fontSize={"1.4rem"} color={"gray.200"}>
-          Seu endereço de email temporário
+          Seu endereço de e-mail temporário
         </Text>
-        <Box display={"flex"} flexDirection={"row"} justifyContent={"center"}>
+        <Box
+          display={"flex"}
+          flexDirection={"row"}
+          justifyContent={"center"}
+          borderRadius={8}
+        >
           <Input
             value={email}
             w={"25rem"}
             h={"3rem"}
             fontSize={"xl"}
             border={"2px"}
-            borderColor={"gray.300"}
             borderRight={"1px"}
             borderRightRadius={"0"}
             cursor={"pointer"}
             readOnly
+            _hover={{
+              border: "2px",
+              borderRight: "1px",
+              borderColor: "blue.500",
+              bgColor: "white",
+              color: "blue.500",
+            }}
           />
           <Button
             leftIcon={<Icon boxSize={6} as={ClipboardText} />}
             onClick={copyToClipboard}
             h={"3rem"}
-            border={"2px"}
-            borderColor={"gray.300"}
+            border="2px"
             borderLeft={"1px"}
             borderLeftRadius={"0"}
+            _hover={{
+              border: "2px",
+              borderLeft: "1px",
+              borderColor: "blue.500",
+              bgColor: "white",
+              color: "blue.500",
+            }}
           >
             Copiar
           </Button>
         </Box>
-        <Text fontSize={"1.2rem"} color={"gray.200"}>
-          Esse email expira em 7 minutos
-        </Text>
+        {sessionId ? (
+          <Text fontSize={"1.2rem"} color={"gray.200"}>
+            Esse e-mail expira em {expireTime} minutos
+          </Text>
+        ) : (
+          <Text fontSize={"1.2rem"} color={"gray.200"}>
+            Gerando seu e-mail
+          </Text>
+        )}
       </Box>
-      <Button onClick={handleNewEmail}>Novo email</Button>
     </Box>
   );
 }

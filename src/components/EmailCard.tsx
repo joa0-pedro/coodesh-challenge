@@ -1,15 +1,22 @@
-import { Box, Icon, Text } from "@chakra-ui/react";
+import { Box, ButtonProps, Icon, Text } from "@chakra-ui/react";
 import { DotOutline } from "@phosphor-icons/react";
+import { Mail } from "./Mailbox";
 
-export function EmailCard() {
+interface EmailCardProps extends ButtonProps {
+  mail: Mail;
+}
+
+export function EmailCard({ mail, ...rest }: EmailCardProps) {
   return (
     <Box
+      as="button"
       mt={1}
       bgColor={"white"}
       _hover={{
         boxShadow: "2px, 2px, red",
         cursor: "pointer",
       }}
+      {...rest}
     >
       <Box
         display={"flex"}
@@ -17,10 +24,18 @@ export function EmailCard() {
         justifyContent={"space-between"}
         mx={"0.5rem"}
       >
-        <Box display={"flex"} flexDirection={"column"}>
-          <Text fontSize={"xl"}>Bruno Felipe</Text>
+        <Box display={"flex"} flexDirection={"column"} textAlign={"left"}>
+          <Text
+            fontSize={"xl"}
+            whiteSpace={"nowrap"}
+            overflow={"hidden"}
+            textOverflow={"ellipsis"}
+            w={48}
+          >
+            {mail.fromAddr}
+          </Text>
           <Text color={"blue.500"} fontSize={"lg"}>
-            Bem vindo
+            {mail.headerSubject}
           </Text>
           <Box w={"12rem"}>
             <Text
@@ -29,9 +44,7 @@ export function EmailCard() {
               overflow={"hidden"}
               textOverflow={"ellipsis"}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-              vitae dui massa. Vestibulum suscipit libero ut massa lacinia, quis
-              laoreet velit ultrices.
+              {mail.text}
             </Text>
           </Box>
         </Box>
