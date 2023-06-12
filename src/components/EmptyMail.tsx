@@ -1,4 +1,4 @@
-import { Box, Center, Image, Text } from "@chakra-ui/react";
+import { Center, Image, Text } from "@chakra-ui/react";
 import EmptyImage from "../assets/EmptyImage.png";
 
 export function EmptyMail() {

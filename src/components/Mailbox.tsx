@@ -1,9 +1,8 @@
-import { from, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useSession } from "../store/useSession";
-import { LOAD_MAILS, client } from "../graphql";
+import { LOAD_MAILS } from "../graphql";
 import { Box, Button, Icon, Text, useToast } from "@chakra-ui/react";
 import NotificationSound from "../assets/NotificationSound.mp3";
-import { useMail } from "../store/useMail";
 import { EmptyMail } from "./EmptyMail";
 import { ArrowClockwise, Bell } from "@phosphor-icons/react";
 import { EmailCard } from "./EmailCard";

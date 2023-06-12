@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Icon, Input, Text, useToast } from "@chakra-ui/react";
 import { ClipboardText } from "@phosphor-icons/react";
 import { CREATE_SESSION_ID, client } from "../graphql";
@@ -59,7 +60,7 @@ export function Email() {
     localStorage.setItem("sessionId", data.introduceSession.id);
     localStorage.setItem("email", data.introduceSession.addresses[0].address);
     localStorage.setItem("expiredAt", data.introduceSession.expiresAt);
-  }, [configure]);
+  }, [configure, expireTime]);
 
   function copyToClipboard() {
     navigator.clipboard.writeText(email);
