@@ -13,9 +13,12 @@ export const client = new ApolloClient({
 
   link: new HttpLink({
     uri: "https://dropmail.me/api/graphql/web-test-20230608KBE1x",
-    fetchOptions: {
-      mode: "no-cors", // no-cors, *cors, same-origin
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
     },
+    fetch,
   }),
 
   // uri: "https://dropmail.me/api/graphql/web-test-20230608KBE1x",
