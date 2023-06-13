@@ -1,17 +1,8 @@
-import {
-  Box,
-  Button,
-  Center,
-  Icon,
-  Input,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
-import { Bell, ClipboardText } from "@phosphor-icons/react";
+import { Box, Button, Icon, Input, Text, useToast } from "@chakra-ui/react";
 import { CREATE_SESSION_ID, client } from "../graphql";
 import { useSession } from "../store/useSession";
 import { useCallback, useEffect, useState } from "react";
-import { MailBox } from "./Mailbox";
+import { ClipboardText } from "@phosphor-icons/react";
 
 export interface Data {
   introduceSession: IntroduceSession;

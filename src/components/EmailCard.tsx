@@ -1,5 +1,4 @@
-import { Box, ButtonProps, Icon, Text } from "@chakra-ui/react";
-import { DotOutline } from "@phosphor-icons/react";
+import { Box, ButtonProps, Text } from "@chakra-ui/react";
 import { Mail } from "./Mailbox";
 
 interface EmailCardProps extends ButtonProps {
