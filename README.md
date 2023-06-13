@@ -24,4 +24,7 @@ Para nortear o desenvolvimento foi utilizado o [design do projeto](https://www.f
   Ao tentar efetuar a conexão com a API via HTTP ocorreu o erro de CORS que não pôde ser solucionado, ao verificar mais afundo foi descoberto que a configuração de CORS da api poderia estar incorreta.
   Para solucionar esse problema foi utilizado um proxy da API que serviu perfeitamente na situação. Segue aqui o link do repositório: [DropMail-Proxy](https://github.com/petterkraus/dropmail-proxy)
 
+## Explicação do projeto
+https://www.loom.com/share/d362fd7096214a9d924aea39bf0cc4e2
+
 >This is a challenge by Coodesh
