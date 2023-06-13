@@ -3,10 +3,8 @@ import { useSession } from "../store/useSession";
 import { LOAD_MAILS } from "../graphql";
 import {
   Box,
-  Button,
   Collapse,
   Icon,
-  SlideFade,
   Text,
   useDisclosure,
   useToast,
