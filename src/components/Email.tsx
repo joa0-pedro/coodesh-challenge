@@ -1,9 +1,17 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, Icon, Input, Text, useToast } from "@chakra-ui/react";
-import { ClipboardText } from "@phosphor-icons/react";
+import {
+  Box,
+  Button,
+  Center,
+  Icon,
+  Input,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
+import { Bell, ClipboardText } from "@phosphor-icons/react";
 import { CREATE_SESSION_ID, client } from "../graphql";
 import { useSession } from "../store/useSession";
 import { useCallback, useEffect, useState } from "react";
+import { MailBox } from "./Mailbox";
 
 export interface Data {
   introduceSession: IntroduceSession;
@@ -36,6 +44,7 @@ export function Email() {
     if (count <= "0") {
       handleNewEmail();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expiredAt]);
 
   const handleNewEmail = useCallback(async () => {
@@ -101,33 +110,31 @@ export function Email() {
   }, [expireDate, configure, handleNewEmail]);
 
   return (
-    <Box display={"flex"} justifyContent={"center"}>
+    <Box
+      display="flex"
+      justifyContent="center"
+      maxWidth="100%"
+      alignItems={"center"}
+    >
       <Box
-        mt={"1.5rem"}
-        display={"flex"}
-        flexDirection={"column"}
-        justifyContent={"center"}
-        textAlign={"left"}
-        w={"fit-content"}
+        mt={6}
+        display="flex"
+        flexDirection="column"
+        textAlign="left"
+        w="fit-content"
+        flexWrap="wrap"
       >
-        <Text fontSize={"1.4rem"} color={"gray.200"}>
+        <Text fontSize={{ base: "lg", md: "2xl" }} color="gray.200">
           Seu endereço de e-mail temporário
         </Text>
-        <Box
-          display={"flex"}
-          flexDirection={"row"}
-          justifyContent={"center"}
-          borderRadius={8}
-        >
+        <Box display="flex" flexDirection="row" borderRadius={8}>
           <Input
             value={email}
-            w={"25rem"}
-            h={"3rem"}
-            fontSize={"xl"}
-            border={"2px"}
-            borderRight={"1px"}
-            borderRightRadius={"0"}
-            cursor={"pointer"}
+            fontSize={{ base: "sm", md: "xl" }}
+            border="2px"
+            borderRight="1px"
+            borderRightRadius="0"
+            cursor="pointer"
             readOnly
             _hover={{
               border: "2px",
@@ -140,10 +147,10 @@ export function Email() {
           <Button
             leftIcon={<Icon boxSize={6} as={ClipboardText} />}
             onClick={copyToClipboard}
-            h={"3rem"}
             border="2px"
-            borderLeft={"1px"}
-            borderLeftRadius={"0"}
+            borderLeft="1px"
+            borderLeftRadius="0"
+            borderRightRadius="0"
             _hover={{
               border: "2px",
               borderLeft: "1px",
@@ -156,11 +163,11 @@ export function Email() {
           </Button>
         </Box>
         {sessionId ? (
-          <Text fontSize={"1.2rem"} color={"gray.200"}>
+          <Text fontSize={{ base: "sm", md: "xl" }} color="gray.200" mb={3}>
             Esse e-mail expira em {expireTime} minutos
           </Text>
         ) : (
-          <Text fontSize={"1.2rem"} color={"gray.200"}>
+          <Text fontSize={{ base: "sm", md: "xl" }} color="gray.200" mb={3}>
             Gerando seu e-mail
           </Text>
         )}

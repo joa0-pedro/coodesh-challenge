@@ -3,9 +3,9 @@ import EmptyImage from "../assets/EmptyImage.png";
 
 export function EmptyMail() {
   return (
-    <Center flexDir={"column"}>
+    <Center flexDir="column">
       <Image src={EmptyImage} />
-      <Text color={"blue.500"} fontSize={"3xl"} fontWeight={"bold"}>
+      <Text color="blue.500" fontSize="3xl" fontWeight="bold">
         Nenhum E-mail para ser exibido!
       </Text>
     </Center>
