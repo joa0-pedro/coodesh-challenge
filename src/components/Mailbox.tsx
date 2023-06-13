@@ -114,7 +114,8 @@ export function MailBox() {
     if (currentEmailsCount == emailsCount) return;
 
     setEmailsCount(data.session.mails.length);
-    sendNotification();
+
+    if (data.session.mails.length > 0) sendNotification();
   }, [data, emailsCount]);
 
   return (
@@ -210,7 +211,7 @@ export function MailBox() {
           </Box>
         </Box>
         <Box p={8} borderTop="2px">
-           {data?.session.mails[emailIndex]?.text ?? <EmptyMail />}
+          {data?.session.mails[emailIndex]?.text ?? <EmptyMail />}
         </Box>
       </Box>
       <Box borderBottom={"2px"} h={{ base: "2em", md: "2.9em" }}>
