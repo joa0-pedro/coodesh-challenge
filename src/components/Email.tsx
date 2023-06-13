@@ -141,7 +141,6 @@ export function Email() {
             border="2px"
             borderLeft="1px"
             borderLeftRadius="0"
-            borderRightRadius="0"
             _hover={{
               border: "2px",
               borderLeft: "1px",
